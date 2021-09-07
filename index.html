@@ -1,0 +1,1942 @@
+<!doctype html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+      <title>Ativos energéticos ‘encalhados’? As usinas termoelétricas da América Latina</title>
+      <meta name="description" content="Ativos energéticos ‘encalhados’? As usinas termoelétricas da América Latina">
+      <meta name="author" content="Julia Janicki">
+      <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
+      <link href="https://fonts.googleapis.com/css2?family=Enriqueta:wght@400;500;600;700&display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,700&display=swap" rel="stylesheet">
+      <script src='https://api.mapbox.com/mapbox-gl-js/v1.6.0/mapbox-gl.js'></script>
+      <link href='https://api.mapbox.com/mapbox-gl-js/v1.6.0/mapbox-gl.css' rel='stylesheet' />
+      <style>
+      body {
+        margin: 0;
+        padding: 0;
+        color: #0C1B34;
+        font-family: 'Work Sans', serif;
+      }
+      #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+      }
+      h1 {
+        font-size: 17px;
+        line-height: 25px;
+      }
+      h2 {
+        font-size: 14px;
+        line-height: 20px;
+        margin-bottom: 10px;
+      }
+      a {
+        text-decoration: none;
+        color: #2dc4b2;
+      }
+      .subtitle{
+        font-size:16px;
+        margin-top: 30px;
+      }
+      #console {
+        position: absolute;
+        width: 300px;
+        margin: 10px;
+        padding: 10px 20px 10px 30px;
+        background-color: #F0F0F1;
+        border-radius: 5px;
+        z-index: 15;
+        transition: 0.3s ease-in-out;
+        box-shadow: 0 1px 1px 0 rgba(66, 66, 66, 0.08), 0 1px 3px 1px rgba(66, 66, 66, 0.16);
+      }
+      .active{
+        transform:translate3d(-280px,0,0);
+        transition: 0.3s ease-in-out;
+      }
+
+      .itemWrapper{
+        margin-top: -20px;
+      }
+
+      #toggleConsole{
+        position:absolute;
+        right:5px;
+        top:0px;
+      }
+      #toggleConsole img{
+        width:16px;
+        opacity: 0.7;
+      }
+      #toggleConsole img:hover{
+        opacity: 0.5;
+        transition: all .5s ease;
+        cursor:pointer;
+      }
+      .toggle, .toggle2,.toggle3,.toggle4,.toggle5,.toggle6,.toggle7,.toggle8,.toggle9,.toggle10,
+      .toggle11, .toggle12,.toggle13,.toggle14,.toggle15,.toggle16 {
+        position: relative;
+        height: 14px;
+        width: 35px;
+        border-radius: 15px;
+        background: #cfcfcf;
+        margin: 8px 0;
+      }
+      .toggle input, .toggle2 input,.toggle3 input,.toggle4 input,.toggle5 input,
+      .toggle6 input,.toggle7 input, .toggle8 input,.toggle9 input,.toggle10 input,
+      .toggle11 input, .toggle12 input,.toggle13 input,.toggle14 input,.toggle15 input,
+      .toggle16 input  {
+        opacity: 0;
+        width: 100%;
+        height: 200%;
+        position: absolute;
+        top: -7px;
+        left: 0;
+        z-index: 2;
+        margin: 0
+      }
+      .toggle input:nth-child(2):checked,
+      .toggle2 input:nth-child(2):checked,
+      .toggle3 input:nth-child(2):checked,
+      .toggle4 input:nth-child(2):checked,
+      .toggle5 input:nth-child(2):checked,
+      .toggle6 input:nth-child(2):checked,
+      .toggle7 input:nth-child(2):checked,
+      .toggle8 input:nth-child(2):checked,
+      .toggle9 input:nth-child(2):checked,
+      .toggle10 input:nth-child(2):checked,
+      .toggle11 input:nth-child(2):checked,
+      .toggle12 input:nth-child(2):checked,
+      .toggle13 input:nth-child(2):checked,
+      .toggle14 input:nth-child(2):checked,
+      .toggle15 input:nth-child(2):checked,
+      .toggle16 input:nth-child(2):checked {
+        z-index: 1;
+      }
+      .toggle__pointer {
+        position: absolute;
+        top: -3.5px;
+        left: 18px;
+        width: 20px;
+        height: 20px;
+        border-radius: 15px;
+        background-color: #DF4C3B;
+        -webkit-transition: left .15s ease-out;
+        transition: left .15s ease-out;
+      }
+      .toggle input:nth-child(2):checked + .toggle__pointer,
+      .toggle2 input:nth-child(2):checked + .toggle__pointer,
+      .toggle3 input:nth-child(2):checked + .toggle__pointer,
+      .toggle4 input:nth-child(2):checked + .toggle__pointer,
+      .toggle5 input:nth-child(2):checked + .toggle__pointer,
+      .toggle6 input:nth-child(2):checked + .toggle__pointer,
+      .toggle7 input:nth-child(2):checked + .toggle__pointer,
+      .toggle8 input:nth-child(2):checked + .toggle__pointer,
+      .toggle9 input:nth-child(2):checked + .toggle__pointer,
+      .toggle10 input:nth-child(2):checked + .toggle__pointer,
+      .toggle11 input:nth-child(2):checked + .toggle__pointer,
+      .toggle12 input:nth-child(2):checked + .toggle__pointer,
+      .toggle13 input:nth-child(2):checked + .toggle__pointer,
+      .toggle14 input:nth-child(2):checked + .toggle__pointer,
+      .toggle15 input:nth-child(2):checked + .toggle__pointer,
+      .toggle16 input:nth-child(2):checked + .toggle__pointer  {
+        left: 0px;
+        background-color: #777777;
+      }
+      .toggle__pointer.color1{
+        background-color: #7fc97f;
+      }
+
+      .toggle__pointer.color2{
+        background-color: #beaed4;
+      }
+
+      .toggle__pointer.color3{
+        background-color: #fdc086;
+      }
+      .toggle__pointer.color4{
+        background-color: #eae78b;
+      }
+      .toggle__pointer.color5{
+        background-color: #386cb0;
+      }
+      .toggle__pointer.color6{
+        background-color: #f0027f;
+      }
+      .toggle__pointer.color7{
+        background-color: #bf5b17;
+      }
+
+      .toggle__pointer.color8{
+        background-color: #666666;
+      }
+      .toggle__pointer.colorStatus{
+        background-color: #D86449;
+      }
+
+        .circlesWrapper {
+          position: relative;
+          height: 14px;
+          width: 14px;
+          border-radius: 15px;
+          margin: 20px 0 10px 0;
+        }
+      .circlesRegion {
+        position: absolute;
+        top: 0px;
+        left: 0;
+        width: 10px;
+        height: 10px;
+        border-radius: 15px;
+      }
+
+      .circlesRegion.color1 {
+        background-color: #7fc97f;
+      }
+      .circlesRegion.color2 {
+        background-color: #beaed4;
+      }
+      .circlesRegion.color3 {
+        background-color: #fdc086;
+      }
+      .circlesRegion.color4 {
+        background-color: #eae78b;
+      }
+      .circlesRegion.color5 {
+        background-color: #386cb0;
+      }
+      .circlesRegion.color6 {
+        background-color: #f0027f;
+      }
+      .circlesRegion.color7 {
+        background-color: #bf5b17;
+      }
+      .circlesRegion.color8 {
+        background-color: #666666;
+      }
+
+      .circlesLegend{
+        vertical-align: middle;
+        margin-left:-5px;
+        margin-top:-5px;
+      }
+
+      .flip{
+        -webkit-transform: scaleX(-1);
+        transform: scaleX(-1);
+        opacity: 1;
+      }
+      #console h1,
+      #console h2 {
+        text-align: left;
+      }
+      .verticalLine {
+        margin-right: 5px;
+        border-right: 0.3px solid #ECE8E1;
+      }
+
+      #title {
+        font-family: 'Enriqueta', serif;
+        color: #0c1b34;
+        font-weight: 700;
+        margin-left: -15px;
+        margin-top: 10px;
+        margin-bottom: 5px;
+      }
+      #title a{
+        color:#0c1b34;
+      }
+      #title a:hover{
+        color: black;
+        transition: all 1s ease;
+        text-decoration: underline !important;
+      }
+      .mapboxgl-popup {
+        min-width: 280px !important;
+        font-family: 'Work Sans', sans-serif;
+        text-align: left;
+        z-index: 20;
+      }
+      .mapboxgl-popup-content {
+        font-family: 'Work Sans', sans-serif;
+        padding: 0;
+      }
+
+      .mapboxgl-popup-content h3 {
+        text-align: left;
+        font-size:16px;
+        margin: 0;
+        display: block;
+        padding: 15px;
+        font-weight: 700;
+        margin-top: -5px;
+      }
+
+      .mapboxgl-popup-content h4 {
+        padding: 8px;
+        font-size:14px;
+        line-height: 20px;
+      }
+
+      .mapboxgl-popup.color1 h3{
+        background: #7fc97f !important;
+        color: #fff;
+      }
+
+      .mapboxgl-popup.color2 h3{
+        background: #beaed4 !important;
+        color: #fff;
+      }
+
+      .mapboxgl-popup.color3 h3{
+        background: #fdc086 !important;
+        color: #fff;
+      }
+
+      .mapboxgl-popup.color4 h3{
+        background: #eae78b !important;
+        color: #fff;
+      }
+
+      .mapboxgl-popup.color5 h3{
+        background: #386cb0 !important;
+        color: #fff;
+      }
+
+      .mapboxgl-popup.color6 h3{
+        background: #f0027f !important;
+        color: #fff;
+      }
+
+      .mapboxgl-popup.color7 h3{
+        background: #bf5b17 !important;
+        color: #fff;
+      }
+
+      .mapboxgl-popup.color8 h3{
+        background: #666666 !important;
+        color: #fff;
+      }
+
+      .mapboxgl-container {
+        cursor: pointer;
+      }
+      .mapboxgl-popup-anchor-top>.mapboxgl-popup-content {
+        margin-top: 3px;
+      }
+      .mapboxgl-popup-anchor-top>.mapboxgl-popup-tip {
+        border-bottom-color: rgb(61, 59, 59);
+      }
+      .mapboxgl-popup-close-button{
+        transform:scale(2);
+        color:#fff;
+        padding:0px;
+        margin-right: 10px;
+      }
+      .mapboxgl-popup-close-button:hover,.mapboxgl-popup-close-button:active,.mapboxgl-popup-close-button:target{
+        background:none !important;
+        border: none !important;
+        outline: none!important;
+        color:#cfcfcf;
+        transition: all 0.5s ease;
+      }
+
+      .button {
+        margin-bottom: 10px;
+        margin-top: 10px;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+        font-weight: 700;
+        font-size: 12px;
+        line-height: 1.5;
+        text-transform: uppercase;
+        background-color: none;
+        max-width: 200px;
+        text-align: center;
+        -webkit-transition: all .5s ease;
+        -moz-transition: all .5s ease;
+        -ms-transition: all .5s ease;
+        transition: all .5s ease;
+        padding: 10px;
+        width:100px;
+      }
+
+      .button.color1 a{
+        color: #7fc97f;
+      }
+
+      .button.color1{
+        border:2px solid #7fc97f;
+      }
+
+      .button.color2 a{
+        color: #beaed4;
+      }
+
+      .button.color2{
+        border:2px solid #beaed4;
+      }
+
+      .button.color3 a{
+        color: #fdc086;
+      }
+
+      .button.color3{
+        border:2px solid #fdc086;
+      }
+
+      .button.color4 a{
+        color: #eae78b;
+      }
+
+      .button.color4{
+        border:2px solid #eae78b;
+      }
+
+      .button.color5 a{
+        color: #386cb0;
+      }
+
+      .button.color5{
+        border:2px solid #386cb0;
+      }
+
+      .button.color6 a{
+        color: #f0027f;
+      }
+
+      .button.color6{
+        border:2px solid #f0027f;
+      }
+      .button.color7 a{
+        color: #bf5b17;
+      }
+
+      .button.color7{
+        border:2px solid #bf5b17;
+      }
+
+      .button.color8 a{
+        color: #666666;
+      }
+
+      .button.color8{
+        border:2px solid #666666;
+      }
+
+      .button:hover {
+        cursor: pointer;
+        -webkit-transition: all .5s ease;
+        -moz-transition: all .5s ease;
+        -ms-transition: all .5s ease;
+        transition: all .5s ease;
+      }
+      a:hover{
+        text-decoration: none !important;
+      }
+
+      .filters{
+        margin-top: 20px;
+      }
+      .legend.label{
+        display:inline;
+      }
+      .legend img{
+        width:10px;
+        height:10px;
+        display:inline;
+      }
+      .label{
+        color:black;
+        font-size:12px;
+        font-weight:400;
+      }
+      .instruction{
+        margin-left: -15px;
+        margin-top:20px;
+      }
+      .instruction p{
+        color:#007979;
+        font-weight: 700;
+        font-size:16px;
+      }
+
+      .item{
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+      }
+      .item2{
+        display: inline-block;
+        margin-left: 2px;
+        font-size: 12px;
+      }
+      .item3{
+        display: inline-block;
+        margin-left: 14px;
+        font-size: 12px;
+        width:20px;
+        height:20px;
+        margin-top:20px;
+      }
+      .popupTitle{
+        font-family: 'Enriqueta', serif;
+      }
+      .mapboxgl-popup-anchor-top>.mapboxgl-popup-tip {
+      /* border-bottom-color: rgb(61, 59, 59); */
+      }
+      #loading {
+      top: 0;
+      left: 0;
+      position: fixed;
+      display: block;
+      opacity: .9;
+      background-color: #fff;
+      z-index: 99;
+      }
+      #loading-image {
+      position: relative;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: calc(50vh - 80px);
+      z-index: 100;
+      }
+      #loading{
+      width: 100%;
+      text-align: center;
+      height: 100%;
+      }
+
+      #reset, #reset2,#reset3{
+        width: 30px;
+        height: 30px;
+        margin-bottom: 5px;
+        fill: #767676;
+      }
+
+      #reset:hover, #reset2:hover,#reset3:hover{
+        fill: #cfcfcf;
+        transition: all 0.5s ease;
+        cursor: pointer;
+      }
+
+      #reset3{
+        margin-top:20px;
+        margin-bottom:20px;
+      }
+
+      #minCircle,#minCircle2{
+        width: 10px;
+        height: 10px;
+      }
+
+      #maxCircle,#maxCircle2{
+        width: 46px;
+        height: 46px;
+      }
+
+      #legendInstruction p:hover{
+        cursor:pointer;
+        opacity: 0.7;
+        transition: all .4s ease;
+      }
+      #logo{
+        position: absolute;
+        bottom:22px;
+        right:0px;
+        z-index:5;
+      }
+      #logo img{
+        width:120px;
+      }
+
+      #capacity{
+        margin-left: 0px;
+        margin-top: -40px;
+      }
+
+      .tab-slider--nav {
+        width: 100%;
+        float: left;
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+
+      .tab-slider--tabs {
+        display: block;
+        float: left;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        position: relative;
+        border-radius: 35px;
+        overflow: hidden;
+        background: #fff;
+        height: 35px;
+        -webkit-user-select: none;
+           -moz-user-select: none;
+            -ms-user-select: none;
+                user-select: none;
+      }
+      .tab-slider--tabs:after {
+        content: "";
+        width: 50%;
+        background: #007979;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        -webkit-transition: all 250ms ease-in-out;
+        transition: all 250ms ease-in-out;
+        border-radius: 35px;
+      }
+      .tab-slider--tabs.slide:after {
+        left: 50%;
+      }
+
+      .tab-slider--trigger {
+        font-size: 12px;
+        line-height: 1;
+        font-weight: bold;
+        color: #007979;
+        text-transform: uppercase;
+        text-align: center;
+        padding: 11px 20px;
+        margin-right:2px;
+        position: relative;
+        z-index: 2;
+        cursor: pointer;
+        display: inline-block;
+        -webkit-transition: color 250ms ease-in-out;
+        transition: color 250ms ease-in-out;
+        -webkit-user-select: none;
+           -moz-user-select: none;
+            -ms-user-select: none;
+                user-select: none;
+      }
+      .tab-slider--trigger.activeTab {
+        color: #fff !important;
+      }
+
+      .tab-slider--body {
+        margin-bottom: 20px;
+      }
+
+      input[type="range"] {
+        -webkit-appearance: none !important;
+        width: 95%;
+        height: 15px;
+        background-color: #cfcfcf;
+        border-radius: 10px;
+        margin-left:0px;
+        transition: all 0.3s ease;
+      }
+
+      input[type="range"]:active,input[type="range"]:focus,input[type="range"]:target{
+        border: none !important;
+        outline: none!important;
+      }
+
+      input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none !important;
+        width: 20px;
+        height: 20px;
+        background-color: #D86449;
+        border-radius: 30px;
+        transition: all 0.5s ease;
+      }
+      input[type="range"]::-webkit-slider-thumb:hover {
+        background-color: #DF4C3B;
+        transition: all 0.5s ease;
+        cursor: pointer;
+      }
+
+      #sliderbar,#sliderbar2{
+        margin-top: 10px;
+      }
+
+      #start, #start2 {
+         position: relative;
+         display:inline;
+         margin-top: 10px;
+         margin-left: 0px;
+         font-size: 14px;
+         }
+       #end, #end2 {
+         position: relative;
+         display:inline;
+         margin-top: 10px;
+         margin-left: 140px;
+         font-size: 14px;
+       }
+
+       #capacityWrapper{
+         display: inherit;
+       }
+
+
+      @media screen and (max-width: 800px) {
+
+        .tab-slider--trigger {
+          font-size: 10px;
+          margin-right:0px;
+        }
+        #console {
+          width: 250px;
+        }
+        .active{
+          transform:translate3d(-230px,0,0);
+        }
+        .label{
+          font-size:10px;
+          margin-left:-5px;
+        }
+        .item2{
+          font-size:10px;
+          margin-left:2px;
+        }
+        h1{
+          font-size:15px;
+        }
+        h2{
+          font-size:11.5px;
+        }
+        .subtitle{
+          font-size:13px;
+        }
+        #console{
+          padding: 10px 20px;
+        }
+        #title{
+          margin-top:-10px;
+        }
+        .mapboxgl-popup {
+          max-width: 250px !important;
+          min-width: 220px !important;
+        }
+        #legendCol1{
+          margin-left: -10px !important;
+        }
+        #legendCol2{
+          margin-left: -20px !important;
+        }
+
+        #start, #start2 {
+           margin-left: 0px;
+           font-size: 11px;
+           }
+         #end, #end2 {
+           margin-left: 110px;
+           font-size: 12px;
+         }
+      }
+      @media screen and (max-width: 600px) {
+
+        .tab-slider--trigger {
+          font-size: 10px;
+          margin-right:0px;
+
+        }
+        body{
+        font-size:11px !important;
+        }
+        #title{
+          font-size:12px;
+        }
+        .subtitle{
+          font-size:12px;
+        }
+        .active{
+        transform:translate3d(-230px,0,0);
+        }
+        .label{
+        font-size:10px;
+        margin-left:-5px;
+        }
+        .item2{
+        font-size:9px;
+        margin-left:1px;
+        }
+        .item3{
+          width: 15px;
+          height: 15px;
+        }
+        .legendTitleAll{
+          margin-top: -5px;
+        }
+        #sliderControls{
+          margin-top: -10px;
+        }
+        h1{
+        font-size:14px;
+        }
+        h2{
+        font-size:11.5px;
+        }
+        .instruction p{
+          font-size:10px;
+        }
+        #legendCol1{
+        margin-left: -10px !important;
+        }
+        #legendCol2{
+        margin-left: -20px !important;
+       }
+
+       .mapboxgl-popup-anchor-top .mapboxgl-popup-tip,
+       .mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip,
+       .mapboxgl-popup-anchor-center .mapboxgl-popup-tip,
+       .mapboxgl-popup-anchor-left .mapboxgl-popup-tip,
+       .mapboxgl-popup-anchor-right .mapboxgl-popup-tip,
+       .mapboxgl-popup-anchor-bottom-right .mapboxgl-popup-tip,
+       .mapboxgl-popup-anchor-bottom-left .mapboxgl-popup-tip,
+       .mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip,
+       .mapboxgl-popup-anchor-top-left .mapboxgl-popup-tip{
+           /* display:none !important; */
+       }
+       #logo{
+         position: absolute;
+         bottom:15px;
+         right:0px;
+       }
+       #logo img{
+         width:100px;
+       }
+       #start, #start2 {
+          margin-left: 0px;
+          font-size: 11px;
+          }
+        #end, #end2 {
+          margin-left: 120px;
+          font-size: 11px;
+        }
+        #capacityWrapper{
+          display: none;
+        }
+      }
+      @media screen and (max-width: 500px) {
+      .mapboxgl-popup {
+        transform: none !important;
+        top: auto !important;
+        bottom: 20px !important;
+        left: 0;
+        right: 0;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .mapboxgl-popup-anchor-top .mapboxgl-popup-tip,
+      .mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip,
+      .mapboxgl-popup-anchor-center .mapboxgl-popup-tip,
+      .mapboxgl-popup-anchor-left .mapboxgl-popup-tip,
+      .mapboxgl-popup-anchor-right .mapboxgl-popup-tip,
+      .mapboxgl-popup-anchor-bottom-right .mapboxgl-popup-tip,
+      .mapboxgl-popup-anchor-bottom-left .mapboxgl-popup-tip,
+      .mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip,
+      .mapboxgl-popup-anchor-top-left .mapboxgl-popup-tip{
+           display:none !important;
+       }
+
+      }
+      </style>
+   </head>
+   <body>
+      <div id='map'></div>
+      <div id='logo'>
+        <img src="./img/logo.png"/>
+      </div>
+      <div id='console'>
+         <div class="verticalLine">
+            <span id="toggleConsole">
+            <img src="./img/toggle.png" />
+            </span>
+            <h1 id='title'>Ativos energéticos ‘encalhados’? As usinas termoelétricas da América Latina</h1>
+            <div class="tab-slider--nav">
+              <ul class="tab-slider--tabs">
+                <li class="tab-slider--trigger activeTab text" rel="tab1">Combustível</li>
+                <li class="tab-slider--trigger" rel="tab2">Status</li>
+              </ul>
+            </div>
+            <div class="tab-slider--container">
+                <div id="tab1" class="tab-slider--body">
+
+                  <div class="itemWrapper">
+                    <svg id="reset2" class="item" version="1.1" x="0px" y="0px"
+                      viewBox="0 0 48.9 42" style="enable-background:new 0 0 48.9 42;" xml:space="preserve">
+                    <g id="">
+                     <path id="XMLID_2_" class="st0" d="M13.2,32.2c-4.1-4.1-5.4-9.7-4.3-14.9l4.4,1.4L10.1,6L0.1,14.3l4.4,1.4
+                       c-1.7,6.8,0.1,14.3,5.4,19.7c6.2,6.2,15.5,7.7,23.1,4.2L31.8,35C25.8,38.2,18.2,37.2,13.2,32.2z"/>
+                     <path id="XMLID_1_" class="st0" d="M44.5,26c1.7-6.8-0.1-14.3-5.4-19.7c-6.2-6.2-15.4-7.6-23-4.3l1.1,4.6c6-3,13.6-2.1,18.5,2.9
+                       c4.1,4.1,5.4,9.7,4.3,14.9l-4.4-1.4l3.1,12.7l10.1-8.4L44.5,26z"/>
+                    </g>
+                    </svg>
+                    <div class="item">
+                      <p> Limpar Combustível</p>
+                    </div>
+                  </div>
+                  <div class="itemWrapper">
+                    <div class='row toggle9 item filters' id="filter9">
+                       <input id='layer9On' type="radio" value="layer9On" name="toggle9" checked='checked'>
+                       <input id='layer9Off' type="radio" value="layer9Off" name="toggle9">
+                       <div class="toggle__pointer color1"></div>
+                    </div>
+                    <div class="item">
+                       <h2 id="nine">Gás natural</h2>
+                    </div>
+                  </div>
+                  <div class="itemWrapper">
+                    <div class='row toggle14 item filters' id="filter14">
+                       <input id='layer14On' type="radio" value="layer14On" name="toggle14" checked='checked'>
+                       <input id='layer14Off' type="radio" value="layer14Off" name="toggle14">
+                       <div class="toggle__pointer color6"></div>
+                    </div>
+                    <div class="item">
+                       <h2 id="fourteen">Gas propano</h2>
+                    </div>
+                  </div>
+                  <div class="itemWrapper">
+                    <div class='row toggle10 item filters' id="filter10">
+                       <input id='layer10On' type="radio" value="layer10On" name="toggle10" checked='checked'>
+                       <input id='layer10Off' type="radio" value="layer10Off" name="toggle10">
+                       <div class="toggle__pointer color2"></div>
+                    </div>
+                    <div class="item">
+                       <h2 id="ten">Carvão</h2>
+                    </div>
+                  </div>
+                  <div class="itemWrapper">
+                    <div class='row toggle13 item filters' id="filter13">
+                       <input id='layer13On' type="radio" value="layer13On" name="toggle13" checked='checked'>
+                       <input id='layer13Off' type="radio" value="layer13Off" name="toggle13">
+                       <div class="toggle__pointer color5"></div>
+                    </div>
+                    <div class="item">
+                       <h2 id="thirteen">Petróleo</h2>
+                    </div>
+                  </div>
+                  <div class="itemWrapper">
+                    <div class='row toggle11 item filters' id="filter11">
+                       <input id='layer11On' type="radio" value="layer11On" name="toggle11" checked='checked'>
+                       <input id='layer11Off' type="radio" value="layer11Off" name="toggle11">
+                       <div class="toggle__pointer color3"></div>
+                    </div>
+                    <div class="item">
+                       <h2 id="eleven">Óleo combustível</h2>
+                    </div>
+                  </div>
+                  <div class="itemWrapper">
+                    <div class='row toggle12 item filters' id="filter12">
+                       <input id='layer12On' type="radio" value="layer12On" name="toggle12" checked='checked'>
+                       <input id='layer12Off' type="radio" value="layer12Off" name="toggle12">
+                       <div class="toggle__pointer color4"></div>
+                    </div>
+                    <div class="item">
+                       <h2 id="twelve">Diesel</h2>
+                    </div>
+                  </div>
+                  <div class="itemWrapper">
+                    <div class='row toggle15 item filters' id="filter15">
+                       <input id='layer15On' type="radio" value="layer15On" name="toggle15" checked='checked'>
+                       <input id='layer15Off' type="radio" value="layer15Off" name="toggle15">
+                       <div class="toggle__pointer color7"></div>
+                    </div>
+                    <div class="item">
+                       <h2 id="fifteen">Coque verde</h2>
+                    </div>
+                  </div>
+                  <div class="itemWrapper">
+                    <div class='row toggle16 item filters' id="filter16">
+                       <input id='layer16On' type="radio" value="layer16On" name="toggle16" checked='checked'>
+                       <input id='layer16Off' type="radio" value="layer16Off" name="toggle16">
+                       <div class="toggle__pointer color8"></div>
+                    </div>
+                    <div class="item">
+                       <h2 id="sixteen">Outro</h2>
+                    </div>
+                  </div>
+                </div>
+                <!-- end tab 1 -->
+                <div id="tab2" class="tab-slider--body">
+
+                  <div class="itemWrapper">
+                    <svg id="reset" class="item" version="1.1" x="0px" y="0px"
+                      viewBox="0 0 48.9 42" style="enable-background:new 0 0 48.9 42;" xml:space="preserve">
+                    <g id="">
+                     <path id="XMLID_2_" class="st0" d="M13.2,32.2c-4.1-4.1-5.4-9.7-4.3-14.9l4.4,1.4L10.1,6L0.1,14.3l4.4,1.4
+                       c-1.7,6.8,0.1,14.3,5.4,19.7c6.2,6.2,15.5,7.7,23.1,4.2L31.8,35C25.8,38.2,18.2,37.2,13.2,32.2z"/>
+                     <path id="XMLID_1_" class="st0" d="M44.5,26c1.7-6.8-0.1-14.3-5.4-19.7c-6.2-6.2-15.4-7.6-23-4.3l1.1,4.6c6-3,13.6-2.1,18.5,2.9
+                       c4.1,4.1,5.4,9.7,4.3,14.9l-4.4-1.4l3.1,12.7l10.1-8.4L44.5,26z"/>
+                    </g>
+                    </svg>
+                    <div class="item">
+                      <p>Limpar status</p>
+                    </div>
+                  </div>
+
+                  <div class="itemWrapper">
+                    <div class='row toggle3 item filters' id="filter3">
+                       <input id='layer3On' type="radio" value="layer3On" name="toggle3" checked='checked'>
+                       <input id='layer3Off' type="radio" value="layer3Off" name="toggle3">
+                       <div class="toggle__pointer color3"></div>
+                    </div>
+                    <div class="item">
+                       <h2 id="three">Planejada</h2>
+                    </div>
+                  </div>
+                  <div class="itemWrapper">
+                    <div class='row toggle item filters' id="filter1">
+                       <input id='layer1On' type="radio" value="layer1On" name="toggle" checked='checked'>
+                       <input id='layer1Off' type="radio" value="layer1Off" name="toggle">
+                       <div class="toggle__pointer color1"></div>
+                    </div>
+                    <div class="item">
+                       <h2 id="one">Ativa</h2>
+                    </div>
+                  </div>
+                  <div class="itemWrapper">
+                    <div class='row toggle5 item filters' id="filter5">
+                       <input id='layer5On' type="radio" value="layer5On" name="toggle5" checked='checked'>
+                       <input id='layer5Off' type="radio" value="layer5Off" name="toggle5">
+                       <div class="toggle__pointer color5"></div>
+                    </div>
+                    <div class="item">
+                       <h2 id="five">Em construção</h2>
+                    </div>
+                  </div>
+                  <div class="itemWrapper">
+                    <div class='row toggle4 item filters' id="filter4">
+                       <input id='layer4On' type="radio" value="layer4On" name="toggle4" checked='checked'>
+                       <input id='layer4Off' type="radio" value="layer4Off" name="toggle4">
+                       <div class="toggle__pointer color4"></div>
+                    </div>
+                    <div class="item">
+                       <h2 id="four">Descartada</h2>
+                    </div>
+                  </div>
+                  <div class="itemWrapper">
+                    <div class='row toggle7 item filters' id="filter7">
+                       <input id='layer7On' type="radio" value="layer7On" name="toggle7" checked='checked'>
+                       <input id='layer7Off' type="radio" value="layer7Off" name="toggle7">
+                       <div class="toggle__pointer color7"></div>
+                    </div>
+                    <div class="item">
+                       <h2 id="seven">Falhas constantes</h2>
+                    </div>
+                  </div>
+                  <div class="itemWrapper">
+                    <div class='row toggle6 item filters' id="filter6">
+                       <input id='layer6On' type="radio" value="layer6On" name="toggle6" checked='checked'>
+                       <input id='layer6Off' type="radio" value="layer6Off" name="toggle6">
+                       <div class="toggle__pointer color6"></div>
+                    </div>
+                    <div class="item">
+                       <h2 id="six">Paralisada</h2>
+                    </div>
+                  </div>
+
+                  <div class="itemWrapper">
+                    <div class='row toggle2 item filters' id="filter2">
+                       <input id='layer2On' type="radio" value="layer2On" name="toggle2" checked='checked'>
+                       <input id='layer2Off' type="radio" value="layer2Off" name="toggle2">
+                       <div class="toggle__pointer color2"></div>
+                    </div>
+                    <div class="item">
+                       <h2 id="two">Fechada</h2>
+                    </div>
+                  </div>
+                </div>
+                <div id="capacityWrapper">
+                  <div id="capacity" class='row itemWrapper'>
+                     <h2 class="subtitle"> Capacidade </h2>
+                  </div>
+                  <div class="itemWrapper">
+                    <svg id="reset3" class="item" version="1.1" x="0px" y="0px"
+                      viewBox="0 0 48.9 42" style="enable-background:new 0 0 48.9 42;" xml:space="preserve">
+                    <g id="">
+                     <path id="XMLID_2_" class="st0" d="M13.2,32.2c-4.1-4.1-5.4-9.7-4.3-14.9l4.4,1.4L10.1,6L0.1,14.3l4.4,1.4
+                       c-1.7,6.8,0.1,14.3,5.4,19.7c6.2,6.2,15.5,7.7,23.1,4.2L31.8,35C25.8,38.2,18.2,37.2,13.2,32.2z"/>
+                     <path id="XMLID_1_" class="st0" d="M44.5,26c1.7-6.8-0.1-14.3-5.4-19.7c-6.2-6.2-15.4-7.6-23-4.3l1.1,4.6c6-3,13.6-2.1,18.5,2.9
+                       c4.1,4.1,5.4,9.7,4.3,14.9l-4.4-1.4l3.1,12.7l10.1-8.4L44.5,26z"/>
+                    </g>
+                    </svg>
+                    <div class="item">
+                      <p> Limpar Capacidade</p>
+                    </div>
+                  </div>
+                  <div class='row itemWrapper'>
+                     <div class="">
+                        <img id="minCircle" class='item2' src="./img/legend.svg" />
+                        <p id="minCircleVal" class='item2'></p>
+                        <img id="maxCircle" class='item2' src="./img/legend.svg" />
+                        <p id="maxCircleVal" class='item2'></p>
+                     </div>
+                  </div>
+                  <div class='session' id='sliderbar'>
+                     <input id='slider' class='row' type='range' min='0' max='' step='1' value='' />
+                     <div id="wrapper">
+                        <p id="start"></p>
+                        <p id="end"></p>
+                     </div>
+                     <p>Capacidade mínima: <span id="selectedCapacity">1</span> MW </p>
+                  </div>
+                </div>
+            </div>
+
+            <div class="instruction itemWrapper" id="instruction">
+               <p class="item">Clique nos círculos para ver detalhes</p>
+            </div>
+         </div>
+         <!-- end line -->
+      </div>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+      <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.14.2/d3.js"></script>
+      <script src="data/data.js"></script>
+      <script>
+      var windowWidth = $(window).width();
+      var windowHeight = $(window).height();
+      var viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+      var viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+
+      var mobile = false;
+      var medium = false;
+      var iphone = false;
+      var safari = false;
+
+      $(window).resize(function() {
+          if (windowWidth != $(window).width() || windowHeight != $(window).height()) {
+              location.reload();
+              return;
+          }
+      });
+
+
+      if ( viewportWidth < 800 && viewportWidth >= 600) {
+          medium = true;
+      }
+
+      if (/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || viewportWidth < 600) {
+          mobile = true;
+      }
+
+      //console.log(mobile);
+
+      if (/iPhone/i.test(navigator.userAgent)) {
+          iphone = true;
+      } else {
+          //console.log(/iPhone/i.test(navigator.userAgent))
+      }
+
+      //if Safari
+      var ua = navigator.userAgent.toLowerCase();
+      if (ua.indexOf('safari') != -1) {
+          if (ua.indexOf('chrome') > -1) { // Chrome
+          } else { // Safari
+              safari = true;
+          }
+      }
+
+      if (viewportWidth < 700) {
+          $("#instruction").css("display", "none");
+      } else {
+          $("#instruction").css("display", "inherit");
+      }
+
+      var legendShow = false;
+
+      mapboxgl.accessToken = 'pk.eyJ1IjoiZGlhbG9nb2NoaW5vIiwiYSI6ImNrOWNtbzRoNzA1M3Eza25tZ3cweGYyNjUifQ.xBZqG3UrpzYxxQOUXGqE1A';
+
+      var map;
+      var popup;
+
+
+      // status
+      var geoJsonData = {
+          'type': 'FeatureCollection',
+          'features': []
+      };
+
+
+      var activeStatuses = ['Ativa','Fechada','Planejada','Descartada','Em construção','Paralisada','Falhas constantes']
+      var activeFuels = ['Gás natural','Carvão','Óleo combustível','Diesel','Petróleo','Outro','Gas propano','Coque verde']
+
+      var allStatus = ['Ativa','Fechada','Planejada','Descartada','Em construção','Paralisada','Falhas constantes']
+      var allFuels = ['Gás natural','Carvão','Óleo combustível','Diesel','Petróleo','Outro','Gas propano','Coque verde']
+
+      var statusFilter = ["in", ["get", "status"], ["literal", activeStatuses]];
+      var fuelFilter = ["in", ["get", "mainFuel"], ["literal", activeFuels]];
+      var capacityFilter = [">=", ["get", "capacity"], 1];
+
+
+      var min = 10;
+      var max = 2500;
+      var maxSlider = 1;
+      var minCircleSize = 4;
+      var maxCircleSize = 24;
+
+      var tab1 = true;
+
+      if (mobile) {
+
+          map = new mapboxgl.Map({
+              container: 'map', // container element id
+              style: 'mapbox://styles/dialogochino/ckfx0o4jn0m2l19qqny2jv4ur',
+              center: [-87.200947,6.663037], // initial map center in [lon, lat]
+              zoom: 3,
+              minZoom: 2
+          });
+
+      } else {
+
+          map = new mapboxgl.Map({
+              container: 'map', // container element id
+              style: 'mapbox://styles/dialogochino/ckfx0o4jn0m2l19qqny2jv4ur',
+              center: [-87.200947,6.663037], // initial map center in [lon, lat]
+              zoom: 3,
+              minZoom: 2
+          });
+
+      }
+
+
+
+      map.on('load', function() {
+
+          init(); // test google sheet
+          $("#toggleConsole").click(function() {
+              $("#console").toggleClass("active");
+              $("#toggleConsole img").toggleClass("flip");
+          });
+
+          // var consoleHeight = $("#console").height() / 2;
+          $("#toggleConsole").css("top", 310);
+
+          if(medium){
+            $("#toggleConsole").css("top", 280);
+          }
+
+          if(mobile){
+            $("#toggleConsole").css("top", 180);
+          }
+
+
+      });
+
+      if (!mobile) {
+          map.addControl(new mapboxgl.NavigationControl());
+      }
+
+
+      function init() {
+
+        $('#loading').hide();
+
+        data.forEach(function(row) {
+
+            // to deal with null lat lon values
+            var lat;
+            var lon;
+            var status;
+            var capacity;
+
+
+            if(row.Status==null || row.Status==''){
+              status = 'other';
+            }else{
+              status = row.Status;
+            }
+            // to deal with null lat lon values
+
+            if(row.Capacity =='' || row.Longitude==null || row.Longitude==''){
+
+            }else{
+              if (+row.Capacity < min) {
+                  min = +row.Capacity;
+              }
+              if (+row.Capacity > maxSlider) {
+                  maxSlider = +row.Capacity;
+              }
+            }
+
+            if (isNaN(+row.Capacity)) {
+              capacity = null;
+            }else{
+              capacity = +row.Capacity;
+            }
+
+
+            var feature = {
+                'type': 'Feature',
+                'properties': {
+                    'longitude': +row.Latitude,
+                    'latitude': +row.Longitude,
+                    'country': row.Country,
+                    'city': row.City,
+                    'project': row.Project,
+                    'mainFuel': row.Main_fuel,
+                    'otherFuels': row.Other_fuels,
+                    'location': row.Location,
+                    'status': row.Status,
+                    'capacity': capacity,
+                    'operationStart': row.Began_operations,
+                    'owner': row.Owner,
+                    'capital': row.Capital,
+                    'companyHQ': row.CompanyHQ,
+                    'shareholders': row.Shareholders,
+                    'notes': row.Notes,
+                    'links': row.Links,
+                    'fueltest': row.Main_fuel
+                },
+                'geometry': {
+                    'type': 'Point',
+                    'coordinates': [+row.Longitude,+row.Latitude],
+                }
+            };
+
+
+            if (row.Longitude != "" && row.Latitude != "" && row.Longitude != null && row.Latitude != null) {
+
+              if(row.Latitude < 90 && row.Latitude > -90 && row.Longitude < 180 && row.Longitude > -180){
+              
+                geoJsonData['features'].push(feature);
+
+              }
+            }
+
+        });
+
+          $("#minCircleVal").html(`${min} MW`);
+          $("#maxCircleVal").html(`${max}+ MW`);
+
+            map.addLayer({
+                id: 'plants',
+                type: 'circle',
+                source: {
+                    type: 'geojson',
+                    data: geoJsonData
+                },
+                paint: {
+                  "circle-color": [
+                       "case",
+                       ["==", ["get", "mainFuel"], 'Gás natural'],
+                       "#7fc97f",
+                       ["==", ["get", "mainFuel"], 'Gas propano'],
+                       "#f0027f",
+                       ["==", ["get", "mainFuel"], 'Carvão'],
+                       '#beaed4',
+                       ["==", ["get", "mainFuel"], 'Petróleo'],
+                        '#386cb0',
+                       ["==", ["get", "mainFuel"], 'Óleo combustível'],
+                        '#fdc086',
+                       ["==", ["get", "mainFuel"], 'Diesel'],
+                       "#eae78b",
+                       ["==", ["get", "mainFuel"], 'Coque verde'],
+                       "#bf5b17",
+                       "#666666"
+                     ],
+                       'circle-radius': [
+                         'interpolate',
+                         ["linear"],
+                         ['get', 'capacity'],
+                         min,
+                         minCircleSize,
+                         max,
+                         maxCircleSize
+                       ],
+                       'circle-opacity': 0.7,
+                       'circle-stroke-color':'#000',
+                       'circle-stroke-width':0.5
+                }
+            });
+
+            // map.setFilter('plants', ['all', statusFilter,fuelFilter,capacityFilter]);
+
+
+           $("#start").html(min + 'MW');
+           $("#end").html(maxSlider+ 'MW');
+
+           $('#slider').prop('min', min);
+           $('#slider').prop('max', maxSlider);
+           $('#slider').prop('value', min);
+
+
+           var sliderValG = $("#slider").val();
+           sliderValG = parseInt(sliderValG)
+
+           function createFilterStatus(filterName,layerOnName,statusString){
+             document.getElementById(filterName).addEventListener('change', function(e) {
+                // update the map filter
+                if (e.target.value === layerOnName) {
+                  //if layer doesn't exist then push
+
+                  if(activeStatuses.indexOf(statusString) == -1){
+
+                    activeStatuses.push(statusString)
+                  }
+
+                  statusFilter = ["in", ["get", "status"], ["literal", activeStatuses]];
+                  fuelFilter = ["in", ["get", "mainFuel"], ["literal", activeFuels]];
+                  capacityFilter = [">=", ["get", "capacity"], sliderValG];
+
+                  // map.setFilter('plants', ['all', statusFilter,fuelFilter,capacityFilter]);
+                  map.setFilter('plants', ['all', statusFilter,fuelFilter,capacityFilter]);
+
+                } else {
+                  //console.log(activeStatuses)
+                  //if layer exists then remove it
+                  if(activeStatuses.indexOf(statusString) !== -1){
+                    var index = activeStatuses.indexOf(statusString);
+                        activeStatuses.splice(index, 1);
+                  }
+                statusFilter = ["in", ["get", "status"], ["literal", activeStatuses]];
+                fuelFilter = ["in", ["get", "mainFuel"], ["literal", activeFuels]];
+                capacityFilter = [">=", ["get", "capacity"], sliderValG];
+                map.setFilter('plants', ['all', statusFilter,fuelFilter,capacityFilter]);
+
+                }
+            });
+
+           }
+
+           createFilterStatus('filter1','layer1On','Ativa')
+           createFilterStatus('filter2','layer2On','Fechada')
+           createFilterStatus('filter3','layer3On','Planejada')
+           createFilterStatus('filter4','layer4On','Descartada')
+           createFilterStatus('filter5','layer5On','Em construção')
+           createFilterStatus('filter6','layer6On','Paralisada')
+           createFilterStatus('filter7','layer7On','Falhas constantes')
+
+
+
+         //
+
+         function createFilterFuel(filterName,layerOnName,fuelString){
+          document.getElementById(filterName).addEventListener('change', function(e) {
+             // update the map filter
+             if (e.target.value === layerOnName) {
+               //if layer doesn't exist then push
+               if(activeFuels.indexOf(fuelString) == -1){
+                 activeFuels.push(fuelString)
+               }
+               console.log(activeFuels)
+
+               statusFilter = ["in", ["get", "status"], ["literal", activeStatuses]];
+               fuelFilter = ["in", ["get", "mainFuel"], ["literal", activeFuels]];
+               // map.setFilter('plants', ['all', statusFilter,fuelFilter,capacityFilter]);
+               map.setFilter('plants', ['all', statusFilter,fuelFilter,capacityFilter]);
+
+             } else {
+               //console.log(activeStatuses)
+               //if layer exists then remove it
+               if(activeFuels.indexOf(fuelString) !== -1){
+                 var index = activeFuels.indexOf(fuelString);
+                     activeFuels.splice(index, 1);
+               }
+             //  console.log(activeStatuses)
+             statusFilter = ["in", ["get", "status"], ["literal", activeStatuses]];
+             fuelFilter = ["in", ["get", "mainFuel"], ["literal", activeFuels]];
+             // map.setFilter('plants', ['all', statusFilter,fuelFilter,capacityFilter]);
+             map.setFilter('plants', ['all', statusFilter,fuelFilter,capacityFilter]);
+
+             }
+
+         });
+       }
+
+
+
+       createFilterFuel('filter9','layer9On','Gás natural')
+       createFilterFuel('filter10','layer10On','Carvão')
+       createFilterFuel('filter11','layer11On','Óleo combustível')
+       createFilterFuel('filter12','layer12On','Diesel')
+       createFilterFuel('filter13','layer13On','Petróleo')
+       createFilterFuel('filter14','layer14On','Gas propano')
+       createFilterFuel('filter15','layer15On','Coque verde')
+       createFilterFuel('filter16','layer16On','Outro')
+
+
+
+
+          $("#reset").click(function() {
+
+            for(var i=0; i<allStatus.length;i++){
+              if(activeStatuses.indexOf(allStatus[i]) == -1){
+                activeStatuses.push(allStatus[i]);
+              }
+            }
+            statusFilter = ["in", ["get", "status"], ["literal", activeStatuses]];
+            fuelFilter = ["in", ["get", "mainFuel"], ["literal", activeFuels]];
+            capacityFilter =  ['>=', ['get','capacity'], sliderValG];
+            map.setFilter('plants', ['all', statusFilter,fuelFilter,capacityFilter]);
+
+            $("#layer1On").prop('checked', true);
+            $("#layer1Off").prop('checked', false);
+            $("#layer2On").prop('checked', true);
+            $("#layer2Off").prop('checked', false);
+            $("#layer3On").prop('checked', true);
+            $("#layer3Off").prop('checked', false);
+            $("#layer4On").prop('checked', true);
+            $("#layer4Off").prop('checked', false);
+            $("#layer5On").prop('checked', true);
+            $("#layer5Off").prop('checked', false);
+            $("#layer6On").prop('checked', true);
+            $("#layer6Off").prop('checked', false);
+            $("#layer7On").prop('checked', true);
+            $("#layer7Off").prop('checked', false);
+
+          });
+
+
+          $("#reset2").click(function() {
+
+            for(var i=0; i<allFuels.length;i++){
+              if(activeFuels.indexOf(allFuels[i]) == -1){
+                activeFuels.push(allFuels[i]);
+              }
+            }
+            statusFilter = ["in", ["get", "status"], ["literal", activeStatuses]];
+            fuelFilter = ["in", ["get", "mainFuel"], ["literal", activeFuels]];
+            capacityFilter =  ['>=', ['get','capacity'], sliderValG];
+            map.setFilter('plants', ['all', statusFilter,fuelFilter,capacityFilter]);
+            $("#layer9On").prop('checked', true);
+            $("#layer9ff").prop('checked', false);
+            $("#layer10On").prop('checked', true);
+            $("#layer10ff").prop('checked', false);
+            $("#layer11On").prop('checked', true);
+            $("#layer11Off").prop('checked', false);
+            $("#layer12On").prop('checked', true);
+            $("#layer12Off").prop('checked', false);
+            $("#layer13On").prop('checked', true);
+            $("#layer13Off").prop('checked', false);
+            $("#layer14On").prop('checked', true);
+            $("#layer14Off").prop('checked', false);
+            $("#layer15On").prop('checked', true);
+            $("#layer15Off").prop('checked', false);
+            $("#layer16On").prop('checked', true);
+            $("#layer16Off").prop('checked', false);
+
+          });
+
+
+          $("#reset3").click(function() {
+
+
+            statusFilter = ["in", ["get", "status"], ["literal", activeStatuses]];
+            fuelFilter = ["in", ["get", "mainFuel"], ["literal", activeFuels]];
+            capacityFilter =  ['>=', ['get','capacity'], 1];
+            map.setFilter('plants', ['all', statusFilter,fuelFilter,capacityFilter]);
+            sliderValG = 1;
+            $("#slider").val(1);
+            $("#slider").trigger('change');
+            document.getElementById('selectedCapacity').innerText = 1;
+
+          });
+
+
+
+          $("document").ready(function(){
+              $(".tab-slider--body").hide();
+              $(".tab-slider--body:first").show();
+            });
+
+            $(".tab-slider--nav li").click(function() {
+              $(".tab-slider--body").hide();
+              $('.mapboxgl-popup').remove();
+
+              var activeTab;
+
+              tab1 = !tab1;
+
+              if(tab1){
+                activeTab = "tab1"
+              }else{
+                activeTab = "tab2"
+              }
+
+              if(tab1){
+                $("#toggleConsole").css("top", 330);
+                if(medium){
+                  $("#toggleConsole").css("top", 280);
+                }
+
+                if(mobile){
+                  $("#toggleConsole").css("top", 180);
+                }
+
+                map.setPaintProperty('plants',"circle-color", [
+                     "case",
+                     ["==", ["get", "mainFuel"], 'Gás natural'],
+                     "#7fc97f",
+                     ["==", ["get", "mainFuel"], 'Gas propano'],
+                     "#f0027f",
+                     ["==", ["get", "mainFuel"], 'Carvão'],
+                     '#beaed4',
+                     ["==", ["get", "mainFuel"], 'Petróleo'],
+                      '#386cb0',
+                     ["==", ["get", "mainFuel"], 'Óleo combustível'],
+                      '#fdc086',
+                     ["==", ["get", "mainFuel"], 'Diesel'],
+                     "#eae78b",
+                     ["==", ["get", "mainFuel"], 'Coque verde'],
+                     "#bf5b17",
+                     "#666666"
+                   ])
+
+
+              }else{
+
+                $("#toggleConsole").css("top", 310);
+                if(medium){
+                  $("#toggleConsole").css("top", 260);
+                }
+
+                if(mobile){
+                  $("#toggleConsole").css("top", 170);
+                }
+
+
+                  map.setPaintProperty('plants',"circle-color", [
+                       "case",
+                       ["==", ["get", "status"], 'Ativa'],
+                       "#7fc97f",
+                       ["==", ["get", "status"], 'Fechada'],
+                       "#beaed4",
+                       ["==", ["get", "status"], 'Planejada'],
+                       '#fdc086',
+                       ["==", ["get", "status"], 'Descartada'],
+                        '#eae78b',
+                       ["==", ["get", "status"], 'Em construção'],
+                        '#386cb0',
+                       ["==", ["get", "status"], 'Paralisada'],
+                       "#f0027f",
+                       "#bf5b17"
+                     ])
+
+
+
+              }
+
+              $("#"+activeTab).fadeIn();
+              if(!tab1){
+                $('.tab-slider--tabs').addClass('slide');
+              }else{
+                $('.tab-slider--tabs').removeClass('slide');
+              }
+              $(".tab-slider--nav li").removeClass("activeTab");
+              $('[rel="'+activeTab+'"]').addClass("activeTab");
+            });
+
+
+
+
+          document.getElementById('slider').addEventListener('input', function(e) {
+                  var sliderVal = +e.target.value;
+                  sliderValG = sliderVal;
+
+                  capacityFilter =  ['>=', ['get','capacity'], sliderVal];
+                 document.getElementById('selectedCapacity').innerText = sliderVal;
+
+                 map.setFilter('plants', ['all', statusFilter,fuelFilter,capacityFilter]);
+          }); //end slider input
+
+
+
+
+          map.on('mouseleave', function() {
+              map.getCanvas().style.cursor = '';
+              // popup.270();
+          });
+
+        
+
+            map.on('click', 'plants', function(e) {
+                map.getCanvas().style.cursor = 'pointer';
+
+                var latitude = e.features[0].properties.longitude;
+                var longitude = e.features[0].properties.latitude;
+                var country = e.features[0].properties.country;
+                var project = e.features[0].properties.project;
+                var mainFuel = e.features[0].properties.mainFuel;
+                var otherFuels = e.features[0].properties.otherFuels;
+                var location = e.features[0].properties.location;
+                var status = e.features[0].properties.status;
+                var capacity = e.features[0].properties.capacity;
+                var operationStart = e.features[0].properties.operationStart;
+                var owner = e.features[0].properties.owner;
+                var capital = e.features[0].properties.capital;
+                var companyHQ = e.features[0].properties.companyHQ;
+                var shareholders = e.features[0].properties.shareholders;
+                var notes = e.features[0].properties.notes;
+                var links = e.features[0].properties.links;
+                var fueltest = e.features[0].properties.fueltest;
+
+
+                while (Math.abs(e.lngLat.lng - latitude) > 180) {
+                    latitude += e.lngLat.lng > latitude ? 360 : -360;
+                }
+
+                var popupClass="color1";
+                var color = "#7fc97f";
+
+
+                if(tab1){
+                  if(mainFuel== 'Gás natural'){
+                    color = "#7fc97f";
+                    popupClass="color1"
+                  }else if(mainFuel== 'Gas propano'){
+                    color = "#f0027f";
+                    popupClass="color6"
+                  }else if(mainFuel== 'Carvão'){
+                    color = "#beaed4";
+                    popupClass="color2"
+                  }else if(mainFuel== 'Petróleo'){
+                    color = "#386cb0";
+                    popupClass="color5"
+                  }else if(mainFuel== 'Óleo combustível'){
+                    color = "#fdc086";
+                    popupClass="color3"
+                  }else if(mainFuel== 'Diesel'){
+                    color = "#eae78b";
+                    popupClass="color4"
+                  }else if(mainFuel== 'Coque verde'){
+                    color = "#bf5b17";
+                    popupClass="color7"
+                  }else{
+                    color = "#666666";
+                    popupClass="color8"
+                  }
+                }else{
+                  if(status== 'Ativa'){
+                    color = "#7fc97f";
+                    popupClass="color1"
+                  }else if(status== 'Fechada'){
+                    color = "#beaed4";
+                    popupClass="color2"
+                  }else if(status== 'Planejada'){
+                    color = "#fdc086";
+                    popupClass="color3"
+                  }else if(status== 'Descartada'){
+                    color = "#eae78b";
+                    popupClass="color4"
+                  }else if(status== 'Em construção'){
+                    color = "#386cb0";
+                    popupClass="color5"
+                  }else if(status== 'Paralisada'){
+                    color = "#f0027f";
+                    popupClass="color6"
+                  }else{
+                    color = "#bf5b17";
+                    popupClass="color7"
+                  }
+                }
+
+                if(links == "" || links == null){
+                  popup = new mapboxgl.Popup({
+                          closeButton: true,
+                          closeOnClick: true,
+                          className: popupClass
+                      })
+                      .setHTML('<h3 class="popupClass"><b>' + project + '</b></h3>'
+                      + '<h4><b>País</b>: '+country+'<br>'
+                      + '<b>Localização</b>: '+location+'<br>'
+                      + '<b>Status</b>: '+status+'<br>'
+                      + '<b>Capacidade</b>: '+capacity+' MW<br>'
+                      + '<b>Combustível principal</b>: '+mainFuel+'<br>'
+                      + '<b>Outros combustíveis</b>: '+otherFuels+'<br>'
+                      + '<b>Início operações</b>: '+operationStart+'<br>'
+                      + '<b>Proprietário</b>: '+owner+'<br>'
+                      + '<b>Sede empresa</b>: '+companyHQ+'<br>'
+                      + '<b>Capital</b>: '+capital+'<br>'
+                      + '<b>Acionistas</b>: '+shareholders+'</h4>')
+                      .setLngLat([longitude, latitude])
+                      .addTo(map);
+
+                }else{
+                  popup = new mapboxgl.Popup({
+                          closeButton: true,
+                          closeOnClick: true,
+                          className: popupClass
+                      })
+                      .setHTML('<h3 class="popupClass"><b>' + project + '</b></h3>'
+                      + '<h4><b>País</b>: '+country+'<br>'
+                      + '<b>Localização</b>: '+location+'<br>'
+                      + '<b>Status</b>: '+status+'<br>'
+                      + '<b>Capacidade</b>: '+capacity+' MW<br>'
+                      + '<b>Combustível principal</b>: '+mainFuel+'<br>'
+                      + '<b>Outros combustíveis</b>: '+otherFuels+'<br>'
+                      + '<b>Início operações</b>: '+operationStart+'<br>'
+                      + '<b>Proprietário</b>: '+owner+'<br>'
+                      + '<b>Sede empresa</b>: '+companyHQ+'<br>'
+                      + '<b>Capital</b>: '+capital+'<br>'
+                      + '<b>Acionistas</b>: '+shareholders+'</h4>'
+                      + `<div class="button ${popupClass}"><a target="_blank" href="${links}">LER MAIS</a></div>`)
+                      .setLngLat([longitude, latitude])
+                      .addTo(map);
+                }
+
+                    $(`.button.${popupClass}`).hover(function(){
+                      $(".button a").css("color","white");
+                      $(this).css("background-color",color);
+                     },function(){
+                       $(".button a").css("color",color);
+                       $(this).css("background-color","white");
+                     });
+                     $(".mapboxgl-popup-tip").css("border-bottom-color",color);
+
+                $(".mapboxgl-popup-tip").css("border-bottom-color", color);
+
+            });
+
+            //mobile
+
+            map.on('touchstart', 'plants', function(e) {
+
+              map.getCanvas().style.cursor = 'pointer';
+
+              var latitude = e.features[0].properties.longitude;
+              var longitude = e.features[0].properties.latitude;
+              var country = e.features[0].properties.country;
+              var project = e.features[0].properties.project;
+              var mainFuel = e.features[0].properties.mainFuel;
+              var otherFuels = e.features[0].properties.otherFuels;
+              var location = e.features[0].properties.location;
+              var status = e.features[0].properties.status;
+              var capacity = e.features[0].properties.capacity;
+              var operationStart = e.features[0].properties.operationStart;
+              var owner = e.features[0].properties.owner;
+              var capital = e.features[0].properties.capital;
+              var companyHQ = e.features[0].properties.companyHQ;
+              var shareholders = e.features[0].properties.shareholders;
+              var notes = e.features[0].properties.notes;
+              var links = e.features[0].properties.links;
+
+
+              while (Math.abs(e.lngLat.lng - latitude) > 180) {
+                  latitude += e.lngLat.lng > latitude ? 360 : -360;
+              }
+
+              var popupClass="color1";
+              var color = "#7fc97f";
+
+
+              if(tab1){
+                if(mainFuel== 'Gás natural'){
+                  color = "#7fc97f";
+                  popupClass="color1"
+                }else if(mainFuel== 'Gas propano'){
+                  color = "#f0027f";
+                  popupClass="color6"
+                }else if(mainFuel== 'Carvão'){
+                  color = "#beaed4";
+                  popupClass="color2"
+                }else if(mainFuel== 'Petróleo'){
+                  color = "#386cb0";
+                  popupClass="color5"
+                }else if(mainFuel== 'Óleo combustível'){
+                  color = "#fdc086";
+                  popupClass="color3"
+                }else if(mainFuel== 'Diesel'){
+                  color = "#eae78b";
+                  popupClass="color4"
+                }else if(mainFuel== 'Coque verde'){
+                  color = "#bf5b17";
+                  popupClass="color7"
+                }else{
+                  color = "#666666";
+                  popupClass="color8"
+                }
+              }else{
+                if(status== 'Ativa'){
+                  color = "#7fc97f";
+                  popupClass="color1"
+                }else if(status== 'Fechada'){
+                  color = "#beaed4";
+                  popupClass="color2"
+                }else if(status== 'Planejada'){
+                  color = "#fdc086";
+                  popupClass="color3"
+                }else if(status== 'Descartada'){
+                  color = "#eae78b";
+                  popupClass="color4"
+                }else if(status== 'Em construção'){
+                  color = "#386cb0";
+                  popupClass="color5"
+                }else if(status== 'Paralisada'){
+                  color = "#f0027f";
+                  popupClass="color6"
+                }else{
+                  color = "#bf5b17";
+                  popupClass="color7"
+                }
+              }
+
+              if(links == "" || links == null){
+                popup = new mapboxgl.Popup({
+                        closeButton: true,
+                        closeOnClick: true,
+                        className: popupClass
+                    })
+                    .setHTML('<h3 class="popupClass"><b>' + project + '</b></h3>'
+                    + '<h4><b>País</b>: '+country+'<br>'
+                    + '<b>Localização</b>: '+location+'<br>'
+                    + '<b>Status</b>: '+status+'<br>'
+                    + '<b>Capacidade</b>: '+capacity+' MW<br>'
+                    + '<b>Combustível principal</b>: '+mainFuel+'<br>'
+                    + '<b>Outros combustíveis</b>: '+otherFuels+'<br>'
+                    + '<b>Início operações</b>: '+operationStart+'<br>'
+                    + '<b>Proprietário</b>: '+owner+'<br>'
+                    + '<b>Sede empresa</b>: '+companyHQ+'<br>'
+                    + '<b>Capital</b>: '+capital+'<br>'
+                    + '<b>Acionistas</b>: '+shareholders+'</h4>')
+                    .setLngLat([longitude, latitude])
+                    .addTo(map);
+
+              }else{
+                popup = new mapboxgl.Popup({
+                        closeButton: true,
+                        closeOnClick: true,
+                        className: popupClass
+                    })
+                    .setHTML('<h3 class="popupClass"><b>' + project + '</b></h3>'
+                    + '<h4><b>País</b>: '+country+'<br>'
+                    + '<b>Localização</b>: '+location+'<br>'
+                    + '<b>Status</b>: '+status+'<br>'
+                    + '<b>Capacidade</b>: '+capacity+' MW<br>'
+                    + '<b>Combustível principal</b>: '+mainFuel+'<br>'
+                    + '<b>Outros combustíveis</b>: '+otherFuels+'<br>'
+                    + '<b>Início operações</b>: '+operationStart+'<br>'
+                    + '<b>Proprietário</b>: '+owner+'<br>'
+                    + '<b>Sede empresa</b>: '+companyHQ+'<br>'
+                    + '<b>Capital</b>: '+capital+'<br>'
+                    + '<b>Acionistas</b>: '+shareholders+'</h4>'
+                    + `<div class="button ${popupClass}"><a target="_blank" href="${links}">LER MAIS</a></div>`)
+                    .setLngLat([longitude, latitude])
+                    .addTo(map);
+              }
+
+
+                  $(`.button.${popupClass}`).hover(function(){
+                    $(".button a").css("color","white");
+                    $(this).css("background-color",color);
+                   },function(){
+                     $(".button a").css("color",color);
+                     $(this).css("background-color","white");
+                   });
+                   $(".mapboxgl-popup-tip").css("border-bottom-color",color);
+
+              $(".mapboxgl-popup-tip").css("border-bottom-color",color);
+
+
+            });
+
+
+      }
+       </script>
+    </body>
+    <div id="loading">
+       <img id="loading-image" src="./img/load.gif" alt="Loading..." />
+    </div>
+ </html>
